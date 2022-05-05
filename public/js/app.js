@@ -5384,6 +5384,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -28100,23 +28153,76 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Example Component"),
+    return _c(
+      "div",
+      {
+        staticClass: "row row-cols-1 row-cols-md-3 g-4",
+        staticStyle: { "margin-top": "5%" },
+      },
+      [
+        _c("div", { staticClass: "col" }, [
+          _c("div", { staticClass: "card h-100" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("h2", { staticClass: "card-title text-center" }, [
+                _vm._v("Квоты"),
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "card-text" }, [
+                _vm._v(
+                  "\n                        This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\n                        This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\n                        This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\n                        This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\n                        This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.\n                    "
+                ),
+              ]),
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              ),
+            _c("div", { staticClass: "card-footer" }, [
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("Last updated 3 mins ago"),
+              ]),
             ]),
           ]),
         ]),
-      ]),
-    ])
+        _vm._v(" "),
+        _c("div", { staticClass: "col" }, [
+          _c("div", { staticClass: "card h-100" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("h5", { staticClass: "card-title" }, [_vm._v("Card title")]),
+              _vm._v(" "),
+              _c("p", { staticClass: "card-text" }, [
+                _vm._v(
+                  "This card has supporting text below as a natural lead-in to additional content."
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" }, [
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("Last updated 3 mins ago"),
+              ]),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col" }, [
+          _c("div", { staticClass: "card h-100" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("h5", { staticClass: "card-title" }, [_vm._v("Card title")]),
+              _vm._v(" "),
+              _c("p", { staticClass: "card-text" }, [
+                _vm._v(
+                  "This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action."
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" }, [
+              _c("small", { staticClass: "text-muted" }, [
+                _vm._v("Last updated 3 mins ago"),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]
+    )
   },
 ]
 render._withStripped = true
