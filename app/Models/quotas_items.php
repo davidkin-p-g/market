@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class category extends Model
+class quotas_items extends Model
 {
-    use HasFactory;
+    protected $guarded = ['id_quotas_item','quotas_id', 'isDelete', 'created_at', 'updated_at'];
 }
