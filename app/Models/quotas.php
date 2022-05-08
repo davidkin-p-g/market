@@ -10,11 +10,17 @@ class quotas extends Model
     // охраняемые атрибуты модели которые нельзя изменить
     protected $guarded = ['quotas_id','created_at', 'updated_at'];
 
-    // поиск итемов квоты
-    public function item()
+    // не удаленные квоты
+    public function quotas()
     {
-        return $this->hasMany(quotas_items::class, 'quotas_id');
+        return $this->where('isDelete',0)->get();
     }
+    // поиск квоты по id
+    public function quota($quota)
+    {
+        return $this->where('id', $quota)->first();
+    }
+
 
 
 }

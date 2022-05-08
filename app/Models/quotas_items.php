@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class quotas_items extends Model
 {
-    protected $guarded = ['id_quotas_item','quotas_id', 'isDelete', 'created_at', 'updated_at'];
+    protected $guarded = ['id','created_at', 'updated_at'];
+
+// не удаленные итемы
+    public function items(int $quotas_id)
+    {
+        return $this->where('quotasId',$quotas_id)->where('isDelete', 0)->get();
+    }
 }

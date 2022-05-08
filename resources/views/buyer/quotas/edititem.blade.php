@@ -22,34 +22,47 @@
             <label for="">че нить из итема</label>
             <hr />
             @if($items != '[]')
-            <table class="table table-striped">
-                <thead>
-                <th>Наименование оборудования</th>
-                <th>Стоимость оборудования</th>
-                <th>Колличество оборудования</th>
-                <th class="text-right">Действие</th>
-                </thead>
-                <tbody>
-                @endif
-            @foreach ($items as $item)
+                <table class="table table-striped">
+                    <thead>
+                    <th>Наименование оборудования</th>
+                    <th>Стоимость оборудования</th>
+                    <th>Колличество оборудования</th>
+                    <th class="text-right">Действие</th>
+                    </thead>
+                    <tbody>
+                    @endif
+                    @foreach ($items as $item)
+                        @if($item->id == $item_id)
+
+                                <tr>
+                                    <td>
+                                    <form action="{{route('quotas.updateitem', ['item_id'=>$item->id, 'quotas_id'=>$quotas->id]) }}" method="post">
+                                        {{ csrf_field() }}
+                                    <input type="text" class="form-control" name="ItemName" placeholder="Название оборудования" value="{{$item->ItemName}}" >
+                                    <input type="text" class="form-control" name="ItemCost" placeholder="Стоимость оборудования" value="{{$item->ItemCost}}" >
+                                    <input type="text" class="form-control" name="ItemCount" placeholder="Количество оборудования" value="{{$item->ItemCount}}" >
+                                    <input class="btn btn-primary" type="submit" value="Сохранить">
+                                    </form>
+                                    </td>
+                                </tr>
+                        @else
                         <tr>
                             <td>{{$item->ItemName}}</td>
                             <td>{{$item->ItemCost}}</td>
                             <td>{{$item->ItemCount}}</td>
                             <td>
-
                                 <form onsubmit="if(confirm('Удалить?')){return true} else {return false}" action="{{route('quotas.destroyitem', ['item_id'=>$item->id, 'quotas_id'=>$quotas->id])}}" method="post">
-{{--                                    {{ method_field('delete') }}--}}
                                     {{ csrf_field() }}
                                     <a href="{{route('quotas.edititem', ['item_id'=>$item->id, 'quotas_id'=>$quotas->id])}}"><i class="fa fa-edit"></i></a>
                                     <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
                                 </form>
                             </td>
                         </tr>
-            @endforeach
-                </tbody>
-            </table>
-            <hr />
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+                <hr />
         <form class="form-horizontal" action="{{route('quotas.additem')}}" method="post">
             {{ csrf_field() }}
             <label for="">Наименование</label>

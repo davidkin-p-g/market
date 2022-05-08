@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('quotas_items', function (Blueprint $table) {
-            $table->id('id');
-            $table->integer('quotasId');
-            $table->string('ItemName');
-            $table->integer('ItemCount');
-            $table->float('ItemCost');
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('IdCategories');
+            $table->string('ProdName');
+            $table->integer('ProdCount');
+            $table->float('ProdCost');
             $table->boolean('isDelete')->default(0);
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quotas_items');
+        Schema::dropIfExists('products');
     }
 };

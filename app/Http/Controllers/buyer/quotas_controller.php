@@ -7,6 +7,7 @@ use App\Models\quotas;
 use App\Models\quotas_items;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class quotas_controller extends Controller
 {
@@ -18,8 +19,9 @@ class quotas_controller extends Controller
     public function index()
     {
         //
+        $q = new quotas();
         return view('buyer.quotas.index', [
-            'quotas' => quotas::paginate(10)
+            'quotas' => $q->quotas()
         ]);
 
     }
@@ -46,8 +48,9 @@ class quotas_controller extends Controller
     public function store(Request $request)
     {
         //
-        quotas::create($request->all());
-        return redirect()->route('quotas.index');
+        $q = quotas::create($request->all());
+        $id = $q->id;
+        return redirect()->route('quotas.edit',['quotas' => $q, 'quota' => $id ]);
     }
 
     /**
@@ -69,9 +72,11 @@ class quotas_controller extends Controller
      */
     public function edit(int $quota, quotas $quotas)
     {
+        $i = new quotas_items();
+        $q = new quotas();
         return view('buyer.quotas.edit', [
-            'quotas'=> quotas::where('id', $quota)->first(),
-            'items'=> quotas_items::where('quotasId',$quota)->get()
+            'quotas'=> $q->quota($quota),
+            'items'=> $i->items($quota),
         ]);
     }
 
@@ -99,8 +104,55 @@ class quotas_controller extends Controller
      * @param  \App\Models\quotas  $quotas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(quotas $quotas)
+    public function destroy(int $quota)
     {
         //
+        $quotas = quotas::find($quota);
+        // каскадное удаление итемов
+        DB::table('quotas_items')
+            ->where('quotasId', '=', $quota)
+            ->update(['isDelete' => 1]);
+        $quotas->isDelete = 1;
+        $quotas->save();
+        return redirect()->route('quotas.index');
+    }
+
+
+    public function additem(Request $request)
+    {
+        //
+        quotas_items::create($request->all());
+        return redirect()->route('quotas.edit',['quota'=>$request->get('quotasId')]);
+    }
+
+    public function edititem(int $item_id , int $quotas_id )
+    {
+        $i = new quotas_items();
+        $q = new quotas();
+        return view('buyer.quotas.edititem', [
+            'quotas'=> $q->quota($quotas_id),
+            'items'=> $i->items($quotas_id),
+            'item_id' => $item_id
+        ]);
+    }
+
+    public function updateitem(Request $request, int $item_id , int $quotas_id)
+    {
+        $item = quotas_items::find($item_id);
+        $item->ItemName = $request->input('ItemName');
+        $item->ItemCost = $request->input('ItemCost');
+        $item->ItemCount = $request->input('ItemCount');
+        $item->save();
+        return redirect()->route('quotas.edit', ['quota'=>$quotas_id]);
+
+    }
+
+    public function destroyitem(int $item_id, int $quotas_id)
+    {
+        //
+        $item = quotas_items::find($item_id);
+        $item->isDelete = 1;
+        $item->save();
+        return redirect()->route('quotas.edit', ['quota'=>$quotas_id]);
     }
 }

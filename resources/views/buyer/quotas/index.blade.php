@@ -18,9 +18,14 @@
                     <td>{{$q->Name}}</td>
                     <td>{{$q->Text}}</td>
                     <td>
-                        <a href="{{route('quotas.edit', ['qoutas'=>$q, 'quota'=>$q->id])}}"><i class="fa fa-edit"></i></a>
+                        <form onsubmit="if(confirm('Удалить?')){return true} else {return false}" action="{{route('quotas.destroy', ['quota'=>$q->id])}}" method="post">
+                            {{ method_field('delete') }}
+                            {{ csrf_field() }}
+                            <a href="{{route('quotas.edit', ['qoutas'=>$q, 'quota'=>$q->id])}}"><i class="fa fa-edit"></i></a>
+                            <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                        </form>
+{{--                        <a href="{{route('quotas.destroy', ['quota'=>$q->id])}}"><i class="fa fa-trash"></i></a>--}}
                     </td>
-                    <td>{{$q}}</td>
                 </tr>
             @empty
                 <tr>

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\seller;
 
 use App\Http\Controllers\Controller;
 use App\Models\categories;
-use App\Models\quotas_items;
+use App\Models\products;
 use Illuminate\Http\Request;
 
-class category_controller extends Controller
+class products_controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,10 @@ class category_controller extends Controller
      */
     public function index()
     {
-        return view('admin.category.index', [
-            'categories' => categories::class::get()
+        $c = new categories();
+        return view('seller.products.index', [
+            'categories' => categories::with('children')->where('IdParent', '0')->get(),
+            'delimiter'  => '&#149'
         ]);
     }
 
@@ -28,11 +30,7 @@ class category_controller extends Controller
      */
     public function create()
     {
-        return view('admin.category.create', [
-            'category'   => [],
-            'categories' => categories::with('children')->where('IdParent', '0')->get(),
-            'delimiter'  => '-'
-        ]);
+        //
     }
 
     /**
@@ -43,17 +41,16 @@ class category_controller extends Controller
      */
     public function store(Request $request)
     {
-        categories::create($request->all());
-        return redirect()->route('category.index');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\category  $category
+     * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function show(category $category)
+    public function show(products $products)
     {
         //
     }
@@ -61,10 +58,10 @@ class category_controller extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\category  $category
+     * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function edit(category $category)
+    public function edit(products $products)
     {
         //
     }
@@ -73,10 +70,10 @@ class category_controller extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\category  $category
+     * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, products $products)
     {
         //
     }
@@ -84,10 +81,10 @@ class category_controller extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\category  $category
+     * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(category $category)
+    public function destroy(products $products)
     {
         //
     }

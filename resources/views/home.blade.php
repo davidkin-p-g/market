@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                        <a href="{{route('quotas.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Квота</a>
+                        <a href="{{route('category.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Категории</a>
+                        <a href="{{route('products.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Пробукты</a>
+
+                        {{ __('You are logged in!') }}
                 </div>
             </div>
         </div>
