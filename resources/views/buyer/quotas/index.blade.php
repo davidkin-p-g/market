@@ -10,6 +10,7 @@
             <thead>
             <th>Наименование</th>
             <th>Описание</th>
+            <th>Публикация</th>
             <th class="text-right">Действие</th>
             </thead>
             <tbody>
@@ -17,6 +18,23 @@
                 <tr>
                     <td>{{$q->Name}}</td>
                     <td>{{$q->Text}}</td>
+                    <td>
+                    @if (isset($q->QPublished))
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="QPublished" checked disabled >
+                            <label class="form-check-label">
+                                Опубликовано
+                            </label>
+                        </div>
+                    @else
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="QPublished" disabled >
+                            <label class="form-check-label">
+                                Неопубликовано
+                            </label>
+                        </div>
+                    @endif
+                    </td>
                     <td>
                         <form onsubmit="if(confirm('Удалить?')){return true} else {return false}" action="{{route('quotas.destroy', ['quota'=>$q->id])}}" method="post">
                             {{ method_field('delete') }}

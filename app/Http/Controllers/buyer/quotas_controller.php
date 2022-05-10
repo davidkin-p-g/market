@@ -89,11 +89,26 @@ class quotas_controller extends Controller
      */
     public function update(Request $request, $quota)
     {
+        if ($request->input('QPublished') == 'on')
+
+        {
+            DB::table('quotas_items')
+                ->where('quotasId', '=', $quota)
+                ->update(['ItemPublished' => 'on']);
+        }
+        else
+        {
+            DB::table('quotas_items')
+                ->where('quotasId', '=', $quota)
+                ->update(['ItemPublished' => null]);
+        }
         $quota = quotas::find($quota);
         $quota->Name = $request->input('Name');
         $quota->Text = $request->input('Text');
+        $quota->QPublished = $request->input('QPublished');
         //quotas::where('quotas_id', $quota)->first()->update($request->all());
         $quota->save();
+
         return redirect()->route('quotas.index');
 
     }

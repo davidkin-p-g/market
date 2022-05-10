@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('Name');
             $table->string('Text')->nullable();
             $table->boolean('isDelete')->default(0);
+            $table->string('QPublished')->default(null);
             $table->timestamps();
         });
     }

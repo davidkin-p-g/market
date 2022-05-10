@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('ItemCount');
             $table->float('ItemCost');
             $table->boolean('isDelete')->default(0);
+            $table->string('ItemPublished')->default(null);
             $table->timestamps();
         });
     }

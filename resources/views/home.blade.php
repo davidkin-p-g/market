@@ -13,10 +13,20 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                        <a href="{{route('quotas.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Квота</a>
-                        <a href="{{route('category.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Категории</a>
-                        <a href="{{route('products.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Пробукты</a>
+                        <div>
+                            <a href="{{route('quotas.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Квота</a>
+                            <a href="{{route('buyerproducts.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Товары для покупателя</a>
+                        </div>
+                        <br>
+                        <div>
+                            <a href="{{route('category.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Категории</a>
+                        </div>
+                        <br>
+                        <div>
+                            <a href="{{route('products.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Товары</a>
+                            <a href="{{route('products.index')}}" class="btn btn-primary" role="button" aria-disabled="true">Квоты для продавцов</a>
+                        </div>
+                        <br>
 
                         {{ __('You are logged in!') }}
                 </div>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('ProdCount');
             $table->float('ProdCost');
             $table->boolean('isDelete')->default(0);
+            $table->string('ProdPublished')->default(null);
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\categories;
 use App\Models\products;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Null_;
 
 class products_controller extends Controller
 {
@@ -16,7 +17,6 @@ class products_controller extends Controller
      */
     public function index()
     {
-        $c = new categories();
         return view('seller.products.index', [
             'categories' => categories::with('children')->where('IdParent', '0')->get(),
             'delimiter'  => '&#149'
@@ -28,9 +28,19 @@ class products_controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create( int $IdCategories, $product_id = null)
     {
-        //
+        $ch_id = array();
+        return view('seller.products.create', [
+            'categ' => categories::with('children')->where('IdParent', '0')->get(),
+            'delimiter'  => '&#149',
+            'products' => products::with('products_categoties_name')->whereIn('IdCategories',categories::get_children_id($IdCategories,$ch_id) )->where('isDelete', '0')->get(),
+            'Categor' => categories::where('id', $IdCategories)->select('id', 'Categories')->first(),
+            'product_id' => $product_id,
+            'categories' => categories::class::get()
+
+
+        ]);
     }
 
     /**
@@ -39,31 +49,10 @@ class products_controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $IdCategories)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\products  $products
-     * @return \Illuminate\Http\Response
-     */
-    public function show(products $products)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\products  $products
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(products $products)
-    {
-        //
+        products::create($request->all());
+        return redirect()->route('products.create',['IdCategories' => $IdCategories]);
     }
 
     /**
@@ -73,9 +62,16 @@ class products_controller extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, products $products)
+    public function update(Request $request, int $IdCategories, int $product_id)
     {
-        //
+        $product = products::find($product_id);
+        $product->ProdName = $request->input('ProdName');
+        $product->ProdCost = $request->input('ProdCost');
+        $product->ProdCount = $request->input('ProdCount');
+        $product->ProdPublished = $request->input('ProdPublished');
+        $product->IdCategories = $request->input('IdCategories');
+        $product->save();
+        return redirect()->route('products.create',['IdCategories' => $IdCategories]);
     }
 
     /**
@@ -84,8 +80,11 @@ class products_controller extends Controller
      * @param  \App\Models\products  $products
      * @return \Illuminate\Http\Response
      */
-    public function destroy(products $products)
+    public function destroy(int $IdCategories, int $product_id)
     {
-        //
+        $product = products::find($product_id);
+        $product->isDelete = 1;
+        $product->save();
+        return redirect()->route('products.create',['IdCategories' => $IdCategories]);
     }
 }

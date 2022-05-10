@@ -15,7 +15,22 @@
 
             <label for="">Текст</label>
             <input class="form-control" type="text" name="Text" placeholder="Описание квоты" value="{{$quotas->Text}}">
-
+            @if (isset($quotas->QPublished))
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="QPublished" checked >
+                    <label class="form-check-label">
+                        Опубликовать
+                    </label>
+                </div>
+            @else
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="QPublished"  >
+                    <label class="form-check-label">
+                        Опубликовать
+                    </label>
+                </div>
+            @endif
+            <br>
             <input class="btn btn-primary" type="submit" value="Сохранить">
         </form>
             <hr />

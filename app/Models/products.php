@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class products extends Model
 {
-    use HasFactory;
+    protected $guarded = ['id'];
+
+    public function products_categoties_name() {
+        return $this->hasMany(categories::class, 'id', 'IdCategories')->select('id', 'Categories');
+    }
 }
