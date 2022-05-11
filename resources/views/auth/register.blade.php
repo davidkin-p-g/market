@@ -61,6 +61,23 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label for="Roles" class="col-md-4 col-form-label text-md-end">Роль</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="Roles" id="Roles" type="Roles">
+                                    <option value="Покупатель">
+                                        Покупатель
+                                    </option>
+                                    <option value="Поставщик">
+                                        Поставщик
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

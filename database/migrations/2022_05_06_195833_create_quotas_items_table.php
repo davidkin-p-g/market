@@ -14,13 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('quotas_items', function (Blueprint $table) {
-            $table->id('id');
-            $table->integer('quotasId');
+            $table->id();
+            $table->integer('QuotasId');
+            $table->string('IdCategories');
             $table->string('ItemName');
             $table->integer('ItemCount');
             $table->float('ItemCost');
+            $table->string('ItemText')->nullable();
             $table->boolean('isDelete')->default(0);
-            $table->string('ItemPublished')->default(null);
+
             $table->timestamps();
         });
     }

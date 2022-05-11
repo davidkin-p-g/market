@@ -8,12 +8,6 @@
         <form class="form-horizontal" action="{{route('category.store')}}" method="post">
             {{ csrf_field() }}
 
-            <label for="">Статус</label>
-            <select class="form-control" name="Published">
-                    <option value="0">Не опубликовано</option>
-                    <option value="1">Опубликовано</option>
-            </select>
-
             <label for="">Категория</label>
             <input type="text" class="form-control" name="Categories" placeholder="Категория" value="" required>
 

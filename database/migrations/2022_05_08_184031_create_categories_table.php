@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('Categories');
             $table->integer('IdParent')->nullable();
-            $table->tinyInteger('Published')->nullable();
             $table->timestamps();
         });
     }

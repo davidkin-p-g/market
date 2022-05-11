@@ -5,6 +5,7 @@ namespace App\Http\Controllers\buyer;
 use App\Http\Controllers\Controller;
 use App\Models\quotas;
 use App\Models\quotas_items;
+use App\Models\categories;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +19,22 @@ class quotas_controller extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();// получили пользователя
         $q = new quotas();
-        return view('buyer.quotas.index', [
-            'quotas' => $q->quotas()
-        ]);
+        if($user->Roles == 'Покупатель')
+        {
+            return view('quotas.index', [
+                'quotas' => $q->quotas_buyer($user->id)
+            ]);
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('quotas.index', [
+                'quotas' => $q->quotas_seller()
+            ]);
+        }
+
+
 
     }
 
@@ -33,10 +45,18 @@ class quotas_controller extends Controller
      */
     public function create()
     {
-        //
-        return view('buyer.quotas.create', [
-            'quotas'=> []
-        ]);
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель')
+        {
+            return view('quotas.create', [
+                'quotas'=> []
+            ]);
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
+
     }
 
     /**
@@ -47,10 +67,17 @@ class quotas_controller extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $q = quotas::create($request->all());
-        $id = $q->id;
-        return redirect()->route('quotas.edit',['quotas' => $q, 'quota' => $id ]);
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель')
+        {
+            $q = quotas::create($request->all());
+            $id = $q->id;
+            return redirect()->route('quotas.edit',['quota_id' => $id]);
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
     }
 
     /**
@@ -59,9 +86,21 @@ class quotas_controller extends Controller
      * @param  \App\Models\quotas  $quotas
      * @return \Illuminate\Http\Response
      */
-    public function show(quotas $quotas)
+    public function show(int $quota_id)
     {
-        //
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель')
+        {
+            return view('home');
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            $q = new quotas();
+            return view('quotas.show', [
+                'quotas' => $q->quota_by_id($quota_id),
+                'items' => quotas_items::with('quotas_item_categoties_name')->where('QuotasId', $quota_id)->where('isDelete', 0)->get(),
+            ]);
+        }
     }
 
     /**
@@ -70,15 +109,37 @@ class quotas_controller extends Controller
      * @param  \App\Models\quotas  $quotas
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $quota, quotas $quotas)
+    public function edit(int $quota_id, int $item_id = null)
     {
-        $i = new quotas_items();
-        $q = new quotas();
-        return view('buyer.quotas.edit', [
-            'quotas'=> $q->quota($quota),
-            'items'=> $i->items($quota),
-        ]);
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель')
+        {
+            if ( $item_id == null) {
+                $q = new quotas();
+                return view('quotas.edit', [
+                    'quotas' => $q->quota_by_id($quota_id),
+                    'items' => quotas_items::with('quotas_item_categoties_name')->where('QuotasId', $quota_id)->where('isDelete', 0)->get(),
+                    'categories' => categories::class::get()// для всплывающего списка
+                ]);
+            }
+            else
+            {
+                $q = new quotas();
+                return view('quotas.edit', [
+                    'quotas' => $q->quota_by_id($quota_id),
+                    'items' => quotas_items::with('quotas_item_categoties_name')->where('QuotasId', $quota_id)->where('isDelete', 0)->get(),
+                    'categories' => categories::class::get(),// для всплывающего списка
+                    'item_id' => $item_id
+                ]);
+            }
+
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -87,29 +148,56 @@ class quotas_controller extends Controller
      * @param  \App\Models\quotas  $quotas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $quota)
+    public function update(Request $request, $quota_id)
     {
-        if ($request->input('QPublished') == 'on')
-
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель')
         {
-            DB::table('quotas_items')
-                ->where('quotasId', '=', $quota)
-                ->update(['ItemPublished' => 'on']);
-        }
-        else
-        {
-            DB::table('quotas_items')
-                ->where('quotasId', '=', $quota)
-                ->update(['ItemPublished' => null]);
-        }
-        $quota = quotas::find($quota);
-        $quota->Name = $request->input('Name');
-        $quota->Text = $request->input('Text');
-        $quota->QPublished = $request->input('QPublished');
-        //quotas::where('quotas_id', $quota)->first()->update($request->all());
-        $quota->save();
 
-        return redirect()->route('quotas.index');
+
+            $quota = quotas::find($quota_id);
+            $quota->Name = $request->input('Name');
+            $quota->Text = $request->input('Text');
+            $quota->QRealizationDate = $request->input('QRealizationDate');
+
+            $items = quotas_items::where('QuotasId',$quota_id)->get();
+            if(isset($items)) {
+                if($request->input('QPublished') == 'on') {
+                    $quota->QPublishedDate = date('Y-m-d ');
+                    $quota->QPublished = $request->input('QPublished');
+                }
+            }
+            // иначе на бы ощибочку вывести
+            //quotas::where('quotas_id', $quota)->first()->update($request->all());
+            $quota->save();
+
+            return redirect()->route('quotas.index');
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
+
+
+    }
+
+    public function updateitem(Request $request, int $item_id , int $quotas_id)
+    {
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель') {
+            $item = quotas_items::find($item_id);
+            $item->IdCategories = $request->input('IdCategories');
+            $item->ItemName = $request->input('ItemName');
+            $item->ItemCost = $request->input('ItemCost');
+            $item->ItemCount = $request->input('ItemCount');
+            $item->ItemText = $request->input('ItemText');
+            $item->save();
+            return redirect()->route('quotas.edit', ['quota_id' => $quotas_id]);
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
 
     }
 
@@ -121,53 +209,54 @@ class quotas_controller extends Controller
      */
     public function destroy(int $quota)
     {
-        //
-        $quotas = quotas::find($quota);
-        // каскадное удаление итемов
-        DB::table('quotas_items')
-            ->where('quotasId', '=', $quota)
-            ->update(['isDelete' => 1]);
-        $quotas->isDelete = 1;
-        $quotas->save();
-        return redirect()->route('quotas.index');
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель')
+        {
+            $quotas = quotas::find($quota);
+            // каскадное удаление итемов
+            DB::table('quotas_items')
+                ->where('quotasId', '=', $quota)
+                ->update(['isDelete' => 1]);
+            $quotas->isDelete = 1;
+            $quotas->save();
+            return redirect()->route('quotas.index');
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
+
     }
 
 
     public function additem(Request $request)
     {
-        //
-        quotas_items::create($request->all());
-        return redirect()->route('quotas.edit',['quota'=>$request->get('quotasId')]);
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель') {
+            quotas_items::create($request->all());
+            return redirect()->route('quotas.edit', ['quota_id' => $request->get('QuotasId')]);
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
     }
 
-    public function edititem(int $item_id , int $quotas_id )
-    {
-        $i = new quotas_items();
-        $q = new quotas();
-        return view('buyer.quotas.edititem', [
-            'quotas'=> $q->quota($quotas_id),
-            'items'=> $i->items($quotas_id),
-            'item_id' => $item_id
-        ]);
-    }
 
-    public function updateitem(Request $request, int $item_id , int $quotas_id)
-    {
-        $item = quotas_items::find($item_id);
-        $item->ItemName = $request->input('ItemName');
-        $item->ItemCost = $request->input('ItemCost');
-        $item->ItemCount = $request->input('ItemCount');
-        $item->save();
-        return redirect()->route('quotas.edit', ['quota'=>$quotas_id]);
 
-    }
 
     public function destroyitem(int $item_id, int $quotas_id)
     {
-        //
-        $item = quotas_items::find($item_id);
-        $item->isDelete = 1;
-        $item->save();
-        return redirect()->route('quotas.edit', ['quota'=>$quotas_id]);
+        $user = auth()->user();// получили пользователя
+        if($user->Roles == 'Покупатель') {
+            $item = quotas_items::find($item_id);
+            $item->isDelete = 1;
+            $item->save();
+            return redirect()->route('quotas.edit', ['quota_id' => $quotas_id]);
+        }
+        if ($user->Roles == 'Поставщик')
+        {
+            return view('home');
+        }
     }
 }

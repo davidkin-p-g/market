@@ -16,10 +16,6 @@
             @forelse ($categories as $category)
                 <tr>
                     <td>{{$category->Categories}}</td>
-                    <td>{{$category->Published}}</td>
-                    <td>
-{{--                        <a href="{{route('category.edit', ['id'=>$category->id])}}"><i class="fa fa-edit"></i></a>--}}
-                    </td>
                 </tr>
             @empty
                 <tr>

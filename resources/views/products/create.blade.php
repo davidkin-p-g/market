@@ -6,14 +6,18 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Категории</h5>
-                @include('seller.products.categories', ['categories' => $categ])
+                <div class="alert alert-info" role="alert">
+                    <a href="{{route('products.index')}}"
+                       role="button" aria-pressed="true"> Все</a>
+                </div>
+                @include('products.categories', ['categories' => $categ,'Role' => $user = auth()->user()->Roles])
             </div>
         </div>
     </div>
     <div class="col-sm-8">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Товары </h5>
+                <h5 class="card-title">Оборудование </h5>
                 <h6 class="card-title">{{$Categor->Categories}} </h6>
                 <hr />
                     <table class="table table-striped">
@@ -22,7 +26,7 @@
                         <th>Категория</th>
                         <th>Стоимость оборудования</th>
                         <th>Колличество оборудования</th>
-                        <th>Публикация</th>
+                        <th>Дата публикации</th>
                         <th class="text-right">Действие</th>
                         </thead>
                         <tbody>
@@ -33,7 +37,7 @@
                                     <td>
                                         <form action="{{route('products.update', ['IdCategories'=>$Categor->id, 'product_id'=>$product->id])}}" method="post">
                                             {{ csrf_field() }}
-                                            <input type="text" class="form-control" name="ProdName" placeholder="Название оборудования" value="{{$product->ProdName}}" >
+                                            <input type="text" class="form-control" name="ProdName" placeholder="Название оборудования" value="{{$product->ProdName}}" required>
 {{--                                            <input type="text" class="form-control" name="IdCategories" placeholder="Категория" value="{{$product->IdCategories}}" >--}}
                                             <div class="form-group">
                                                 <select class="form-control" name="IdCategories">
@@ -50,8 +54,8 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <input type="text" class="form-control" name="ProdCost" placeholder="Стоимость оборудования" value="{{$product->ProdCost}}" >
-                                            <input type="text" class="form-control" name="ProdCount" placeholder="Количество оборудования" value="{{$product->ProdCount}}" >
+                                            <input type="text" class="form-control" name="ProdCost" placeholder="Стоимость оборудования" value="{{$product->ProdCost}}" required >
+                                            <input type="text" class="form-control" name="ProdCount" placeholder="Количество оборудования" value="{{$product->ProdCount}}" required >
                                             @if (isset($product->ProdPublished))
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" name="ProdPublished" checked >
@@ -80,19 +84,10 @@
                                     <td>{{$product->ProdCount}}</td>
                                     <td>
                                         @if (isset($product->ProdPublished))
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="ProdPublished" checked disabled >
-                                                <label class="form-check-label">
-                                                    Опубликовано
-                                                </label>
-                                            </div>
+                                            {{$product->ProdPublishedDate}}
                                         @else
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="ProdPublished" disabled >
-                                                <label class="form-check-label">
                                                     Неопубликовано
-                                                </label>
-                                            </div>
                                         @endif
                                     </td>
                                     <td>
@@ -111,16 +106,26 @@
                     <form class="form-horizontal" action="{{route('products.store',['IdCategories' => $Categor->id]) }}" method="post">
                         {{ csrf_field() }}
                         <label for="">Наименование</label>
-                        <input type="text" class="form-control" name="ProdName" placeholder="Название оборудования" value="" >
+                        <input type="text" class="form-control" name="ProdName" placeholder="Название оборудования" value=""  required>
 
                         <label for="">Стоимость</label>
-                        <input class="form-control" type="text" name="ProdCost" placeholder="Стоимость оборудования" value="">
+                        <input class="form-control" type="text" name="ProdCost" placeholder="Стоимость оборудования" value="" required>
 
                         <label for="">Колличество</label>
-                        <input class="form-control" type="text" name="ProdCount" placeholder="Цена оборудования" value="">
+                        <input class="form-control" type="text" name="ProdCount" placeholder="Цена оборудования" value="" required>
 
-                            <input type="text" class="form-control" name="IdCategories"  value="{{$Categor->id}}" hidden>
-                            <hr />
+                        <br>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="ProdPublished"  >
+                            <label class="form-check-label">
+                                Опубликовать
+                            </label>
+                        </div>
+
+                        <input class="form-control" type="text" name="SellerId" value="{{$user = auth()->user()->id}}" hidden>
+                        <input type="text" class="form-control" name="IdCategories"  value="{{$Categor->id}}" hidden>
+                        <input class="form-control" type="text" name="ProdPublishedDate" value="" hidden>
+                        <hr />
 
                         <input class="btn btn-primary" type="submit" value="Добавить">
 

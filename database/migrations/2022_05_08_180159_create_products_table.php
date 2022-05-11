@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('IdCategories');
+            $table->integer('SellerId');
+            $table->integer('IdCategories');
             $table->string('ProdName');
             $table->integer('ProdCount');
             $table->float('ProdCost');
+            $table->string('ProdText')->nullable();
+            $table->string('ProdPublished')->nullable();
+            $table->date('ProdPublishedDate')->nullable();
             $table->boolean('isDelete')->default(0);
-            $table->string('ProdPublished')->default(null);
             $table->timestamps();
         });
     }
