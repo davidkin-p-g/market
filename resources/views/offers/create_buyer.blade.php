@@ -3,12 +3,13 @@
 @section('content')
 
     <div class="container">
+
         <hr />
-            <h4>{{$quotas->Name}}</h4>
-            <h5>{{$quotas->Text}}</h5>
-            <h5>{{$quotas->QRealizationDate}}</h5>
-            <br>
-            <hr />
+            <h5>Квота</h5>
+            <label for="">Наименование</label>
+            <h4>{{$quota->Name}}</h4>
+            <h4>{{$quota->Text}}</h4>
+            <h4>{{$quota->QRealizationDate}}</h4>
             <table class="table table-striped">
                 <thead>
                 <th>Категория</th>
@@ -33,8 +34,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('quotas.showitem', ['quota_id' => 1, 'item_id' => 1])}}"><i class="fa fa-eye"></i></a>
-                                <a href="{{route('offers.create_seller', ['id' =>$item->id, 'IdCategories' => $item->IdCategories])}}"><i class="fa fa-plus"></i></a>
+                                <a href="{{route('offers.add_buyer', ['id'=> $id,'dop_id'=> $item->id ])}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                 @endforeach

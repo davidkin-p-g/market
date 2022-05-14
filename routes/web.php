@@ -42,13 +42,7 @@ Route::middleware(['auth'])->group(function () {
     // категории для админа
     Route::resource('/category',App\Http\Controllers\admin\category_controller::class);
 
-
-    //Товары для покупателя
-//    Route::get('/bproducts/', [App\Http\Controllers\buyer\buyer_products_controller::class, 'index'])->name('buyerproducts.index');
-//    Route::get('/bproducts/{IdCategories}', [App\Http\Controllers\buyer\buyer_products_controller::class, 'index'])->name('buyerproducts.indexcategory');
-
-
-    //Товары для продавца
+    //Товары
     Route::get('/products/',[App\Http\Controllers\seller\products_controller::class, 'index'])->name('products.index');
     Route::get('/productss/{IdCategories}',[App\Http\Controllers\seller\products_controller::class, 'index'])->name('products.indexid');
     Route::get('/products/{IdCategories}',[App\Http\Controllers\seller\products_controller::class, 'create'])->name('products.create');
@@ -61,6 +55,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/products/destroy/{IdCategories}/{product_id}',[App\Http\Controllers\seller\products_controller::class, 'destroy'])
         ->name('products.destroy');
 
+    // Предложения
+    Route::get('/offer/{id}/{quota_id?}',[App\Http\Controllers\offers\offers_controller::class, 'create'])->name('offers.create_buyer');
+    Route::get('/offer/add/{id}/{dop_id}',[App\Http\Controllers\offers\offers_controller::class, 'add'])->name('offers.add_buyer');
+    Route::post('/offer/store/{item}/{product}',[App\Http\Controllers\offers\offers_controller::class, 'store'])->name('offers.store');
+    Route::post('/offer/update/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'update'])->name('offers.update');
+    Route::get('/offer_seller/{id}/{IdCategories}',[App\Http\Controllers\offers\offers_controller::class, 'create_post'])->name('offers.create_seller');
+    Route::get('/offers/',[App\Http\Controllers\offers\offers_controller::class, 'index'])->name('offers.index');
+    Route::get('/offers/edit/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'edit'])->name('offers.edit');
 
 
 });

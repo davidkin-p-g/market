@@ -125,6 +125,7 @@
                         <input class="form-control" type="text" name="SellerId" value="{{$user = auth()->user()->id}}" hidden>
                         <input type="text" class="form-control" name="IdCategories"  value="{{$Categor->id}}" hidden>
                         <input class="form-control" type="text" name="ProdPublishedDate" value="" hidden>
+                        <input class="form-control" type="text" name="SellerName" value="{{$user = auth()->user()->name}}" hidden>
                         <hr />
 
                         <input class="btn btn-primary" type="submit" value="Добавить">

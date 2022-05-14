@@ -36,7 +36,7 @@ class products_controller extends Controller
                     'categ' => categories::with('children')->where('IdParent', '0')->get(),
                     'delimiter' => '&#149',
                     'products' => products::with('products_categoties_name')->whereIn('IdCategories', categories::get_children_id($IdCategories, $ch_id))->where('isDelete', '0')->where('ProdPublished', 'on')->get(),
-                    'Categories' => categories::where('id', $IdCategories)->select('id', 'Categories')->first()
+                    'Categories' => categories::where('id', $IdCategories)->select('id', 'Categories')->first(),
 
 
                 ]);

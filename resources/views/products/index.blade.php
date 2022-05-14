@@ -19,16 +19,19 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Оборудование </h5>
-                    @if(isset($Categor))
-                        <h6 class="card-title">{{$Categor->Categories}}</h6>
+                    @if(isset($Categories))
+                        <h6 class="card-title">{{$Categories->Categories}}</h6>
                     @endif
                     <hr />
                     <table class="table table-striped">
                         <thead>
+                        @if($user = auth()->user()->Roles == 'Продавец')
+                        <th>Поставщик</th>
+                        @endif
                         <th>Наименование</th>
                         <th>Категория</th>
                         <th>Стоимость</th>
-                        <th>Колличество</th>
+                        <th>Количество</th>
                         <th>Дата публикации</th>
                         <th>Действие</th>
                         </thead>
@@ -48,14 +51,24 @@
                                     </td>
                                     <td>
                                         @if($user = auth()->user()->Roles == 'Поставщик')
+                                            @if(isset($id))
+                                                <a href="{{route('offers.add_buyer', ['id'=> $id,'dop_id'=> $product->id ])}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                            @else
                                             <form onsubmit="if(confirm('Удалить?')){return true} else {return false}" action="{{route('products.destroy', ['IdCategories'=>$product->IdCategories, 'product_id'=>$product->id])}}" method="post">
                                                 {{ csrf_field() }}
                                                 <a href="{{route('products.createedit', ['IdCategories'=>$product->IdCategories, 'product_id'=>$product->id])}}"><i class="fa fa-edit"></i></a>
                                                 <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
                                             </form>
+                                            @endif
                                         @endif
-                                            @if($user = auth()->user()->Roles == 'Покупатель')
-                                            <a href="{{route('products.show', ['IdCategories'=>1])}}"><i class="fa fa-eye"></i></a>
+                                        @if($user = auth()->user()->Roles == 'Покупатель')
+                                            @if(isset($Categories))
+                                                <a href="{{route('products.index')}}"><i class="fa fa-eye"></i></a>
+                                                <a href="{{route('offers.create_buyer', ['id'=>$product->id, 'IdCategories'=>$Categories->id])}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                            @else
+{{--                                                <a href="{{route('products.show', ['IdCategories'=>null,'product_id'=>$product->id])}}"><i class="fa fa-eye"></i></a>--}}
+                                                <a href="{{route('offers.create_buyer', ['id'=>$product->id])}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

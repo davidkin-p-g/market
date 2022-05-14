@@ -90,7 +90,7 @@
             <div class="col">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Еще не придумал</h4>
+                        <h4 class="my-0 fw-normal">Предложения</h4>
                     </div>
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>
@@ -108,7 +108,7 @@
                                 <li>Что-то четвертое</li>
                             @endif
                         </ul>
-                        <a href="{{route('category.index')}}" class="w-100 btn btn-lg btn-primary" role="button" aria-disabled="true">Список оборудования</a>
+                        <a href="{{route('offers.index')}}" class="w-100 btn btn-lg btn-primary" role="button" aria-disabled="true">Список оборудования</a>
                     </div>
                 </div>
             </div>

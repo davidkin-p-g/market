@@ -14,6 +14,10 @@ class quotas extends Model
     {
         return $this->where('BuyerId', $BuyerId)->where('isDelete',0)->get();
     }
+    public function quotas_buyer_pub(string $BuyerId)
+    {
+        return $this->where('BuyerId', $BuyerId)->where('isDelete',0)->where('QPublished', 'on')->get();
+    }
 
     // не удаленные квоты
     public function quotas_not_delete()
