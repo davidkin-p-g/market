@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\offers;
 
 use App\Http\Controllers\Controller;
+use App\Models\chats;
 use App\Models\offer;
 use App\Models\products;
 use App\Models\quotas;
@@ -118,6 +119,7 @@ class offers_controller extends Controller
     public function add(int $id, int $dop_id)
     {
         $user = auth()->user();// получили пользователя
+
         if($user->Roles == 'Покупатель')
         {
             $item = quotas_items::where('id',$dop_id)->first();
@@ -125,7 +127,7 @@ class offers_controller extends Controller
             return view('offers.add', [
                 'quota' => quotas::where('id', $item->QuotasId)->first(),
                 'item' => quotas_items::with('quotas_item_categoties_name')->where('id',$dop_id)->first(),
-                'product' => products::with('products_categoties_name')->where('id', $id)->first()
+                'product' => products::with('products_categoties_name')->where('id', $id)->first(),
 
             ]);
         }
@@ -172,6 +174,18 @@ class offers_controller extends Controller
         }
     }
 
+    public function storechat(Request $request, int $offer_id)
+    {
+        $user = auth()->user();// получили пользователя
+        $data = $request->all();
+        $data['UserId'] = $user->id;
+        $data['OfferId'] = $offer_id;
+
+        chats::create($data);
+        return redirect()->route('offers.edit',['offer_id'=> $offer_id]);
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -199,15 +213,17 @@ class offers_controller extends Controller
     public function edit(int $offer_id)
     {
         $user = auth()->user();// получили пользователя
-
-        $offer = offer::where('id',$offer_id)->first();
+        $offer = offer::where('id',$offer_id)->where('isDelete', 1)->first();
         $item = quotas_items::where('id',$offer->ItemsId)->first();
+        $chat = new chats();
+        $chat = $chat->chat_user($offer_id);
 
         return view('offers.add', [
             'quota' => quotas::where('id', $item->QuotasId)->first(),
             'item' => quotas_items::with('quotas_item_categoties_name')->where('id',$offer->ItemsId)->first(),
             'product' => products::with('products_categoties_name')->where('id', $offer->ProductsId)->first(),
-            'offer' => $offer
+            'offer' => $offer,
+            'chats' => $chat
 
 
         ]);
@@ -266,15 +282,13 @@ class offers_controller extends Controller
      * @param  \App\Models\offer  $offer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(offer $offer)
+    public function destroy(int $offer_id)
     {
         $user = auth()->user();// получили пользователя
-        if($user->Roles == 'Покупатель') {
-            return view('home');
-        }
-        if ($user->Roles == 'Поставщик')
-        {
-            return view('home');
-        }
+        $offer = offer::find($offer_id);
+        // каскадное удаление итемов
+        $offer->isDelete = 1;
+        $offer->save();
+        return redirect()->route('offers.index');
     }
 }

@@ -58,8 +58,11 @@
                         <a><i class="fa fa-edit" aria-hidden="true"></i></a>
                         <a href="{{route('offers.edit', ['offer_id'=> $offer->id])}}"><i class="fa fa-eye" aria-hidden="true">Посмотреть документы</i></a>
                     @else
-                        <a href="{{route('offers.edit', ['offer_id'=> $offer->id])}}"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                        <a href="{{route('offers.edit', ['offer_id'=> $offer->id])}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <form action="{{route('offers.destroy', ['offer_id'=> $offer->id]) }}" method="post">
+                            {{ csrf_field() }}
+                            <a href="{{route('offers.edit', ['offer_id'=> $offer->id])}}"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                        </form>
                     @endif
                 </td>
 
@@ -94,7 +97,7 @@
                 </tr>
             @empty
                 <tr>
-                        <td colspan="11" class="text-center"><h2>Нет предложений</h2></td>
+                        <td colspan="12" class="text-center"><h2>Нет предложений</h2></td>
                 </tr>
             @endforelse
             </tbody>

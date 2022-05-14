@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('OfferSellerCount')->nullable();;
             $table->float('OfferSellerCost')->nullable();;
             $table->date('PublishedDate')->nullable();
+            $table->boolean('isDelete')->default(0);
             $table->timestamps();
         });
     }

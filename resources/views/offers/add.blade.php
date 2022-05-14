@@ -1,5 +1,52 @@
 @extends('layouts.app')
+<style>
 
+    body{margin-top:20px;}
+
+    .chat-online {
+        color: #34ce57
+    }
+
+    .chat-offline {
+        color: #e4606d
+    }
+
+    .chat-messages {
+        display: flex;
+        flex-direction: column;
+        max-height: 800px;
+        overflow-y: scroll
+    }
+
+    .chat-message-left,
+    .chat-message-right {
+        display: flex;
+        flex-shrink: 0
+    }
+
+    .chat-message-left {
+        margin-right: auto
+    }
+
+    .chat-message-right {
+        flex-direction: row-reverse;
+        margin-left: auto
+    }
+    .py-3 {
+        padding-top: 1rem!important;
+        padding-bottom: 1rem!important;
+    }
+    .px-4 {
+        padding-right: 1.5rem!important;
+        padding-left: 1.5rem!important;
+    }
+    .flex-grow-0 {
+        flex-grow: 0!important;
+    }
+    .border-top {
+        border-top: 1px solid #dee2e6!important;
+    }
+</style>
 @section('content')
     <div class="container py-3">
         <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
@@ -197,5 +244,59 @@
             </div>
         </div>
     </div>
+
+
+@if(isset($offer))
+    <main class="content">
+        <div class="container p-0">
+            <h1 class="h3 mb-3">Чат</h1>
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-7 col-xl-12">
+                        <div class="position-relative">
+                            <div class="chat-messages p-4">
+                                @forelse($chats as $chat)
+                                    @if($user = auth()->user()->id == $chat->UserId)
+                                    <div class="chat-message-right pb-4">
+                                        <div>
+                                            <div class="text-muted small text-nowrap mt-2">{{$chat->name}}</div>
+                                            <div class="text-muted small text-nowrap mt-2">{{$chat->created_at}}</div>
+                                        </div>
+                                        <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                            <div class="font-weight-bold mb-1"></div>
+                                            {{$chat->ChatText}}
+                                        </div>
+                                    </div>
+                                    @else
+                                        <div class="chat-message-left pb-4">
+                                            <div>
+                                                <div class="text-muted small text-nowrap mt-2">{{$chat->name}}</div>
+                                                <div class="text-muted small text-nowrap mt-2">{{$chat->created_at}}</div>
+                                            </div>
+                                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                                <div class="font-weight-bold mb-1"></div>
+                                                {{$chat->ChatText}}
+                                            </div>
+                                        </div>
+                                    @endif
+                                @empty
+                                    <h3 class="text-center">Нет сообщений</h3>
+                                @endforelse
+                            </div>
+                        </div>
+                        <div class="flex-grow-0 py-3 px-4 border-top">
+                            <form class="input-group" action="{{route('offers.storechat', ['offer_id' => $offer->id])}}" method="post">
+                                {{ csrf_field() }}
+
+                                <input type="text" class="form-control" name="ChatText" placeholder="Ввести сообщение">
+                                <input class="btn btn-primary" type="submit" value="Отправить">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+@endif
 @endsection
 

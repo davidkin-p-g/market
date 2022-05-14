@@ -60,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/offer/add/{id}/{dop_id}',[App\Http\Controllers\offers\offers_controller::class, 'add'])->name('offers.add_buyer');
     Route::post('/offer/store/{item}/{product}',[App\Http\Controllers\offers\offers_controller::class, 'store'])->name('offers.store');
     Route::post('/offer/update/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'update'])->name('offers.update');
+    Route::post('/offer/storechat/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'storechat'])->name('offers.storechat');
+    Route::post('/offers/destroy/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'destroy'])->name('offers.destroy');
     Route::get('/offer_seller/{id}/{IdCategories}',[App\Http\Controllers\offers\offers_controller::class, 'create_post'])->name('offers.create_seller');
     Route::get('/offers/',[App\Http\Controllers\offers\offers_controller::class, 'index'])->name('offers.index');
     Route::get('/offers/edit/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'edit'])->name('offers.edit');

@@ -13,6 +13,7 @@ class offer extends Model
     public function offers_seller($user) {
         $offers = DB::table('offers')
             ->where('offers.SellerId', $user->id)
+            ->where('offers.isDelete', 0)
             ->join('quotas_items','offers.ItemsId', '=',  'quotas_items.id')
             ->join('categories  as ca','ca.id', '=','quotas_items.IdCategories')
             ->join('products','offers.ProductsId', '=',  'products.id')
@@ -30,6 +31,7 @@ class offer extends Model
     public function offers_buyer($user) {
         $offers = DB::table('offers')
             ->where('offers.BuyerId', $user->id)
+            ->where('offers.isDelete', 0)
             ->join('quotas_items','offers.ItemsId', '=',  'quotas_items.id')
             ->join('categories  as ca','ca.id', '=','quotas_items.IdCategories')
             ->join('products','offers.ProductsId', '=',  'products.id')
