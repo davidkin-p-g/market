@@ -23,7 +23,6 @@ class products extends Model
                     DB::raw('count(offers.id) as offers_count')
                 )
                 ->where('products.isDelete', 0)
-                ->where('products.ProdPublished', 'on')
 
                 ->join('categories', 'categories.id', '=', 'products.IdCategories')
 
@@ -46,7 +45,6 @@ class products extends Model
                     DB::raw('count(offers.id) as offers_count')
                 )
                 ->where('products.isDelete', 0)
-                ->where('products.ProdPublished', 'on')
 
                 ->join('categories', 'categories.id', '=', 'products.IdCategories')
                 ->whereIn('products.IdCategories', categories::get_children_id($IdCategories, $ch_id))

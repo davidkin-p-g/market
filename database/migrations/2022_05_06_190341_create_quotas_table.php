@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('BuyerId');
             $table->string('Buyer');
             $table->string('Name');
-            $table->string('Text')->nullable();
+            $table->string('Text', 1000)->nullable();
             $table->string('QPublished')->nullable();
             $table->date('QPublishedDate')->nullable();
             $table->date('QRealizationDate')->nullable();

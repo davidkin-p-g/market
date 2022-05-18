@@ -24,7 +24,7 @@ class quotas_controller extends Controller
         if($user->Roles == 'Покупатель')
         {
             return view('quotas.index', [
-                'quotas' => $q->quotas_buyer($user->id)
+                'quotas' => $q->quotas_buyer($user->id),
             ]);
         }
         if ($user->Roles == 'Поставщик')
@@ -89,19 +89,22 @@ class quotas_controller extends Controller
     public function show(int $quota_id)
     {
         $user = auth()->user();// получили пользователя
-        if($user->Roles == 'Покупатель')
-        {
-            return view('home');
+        $q = new quotas();
+        $i = new quotas_items();
+        if($user->Roles == 'Покупатель') {
+            return view('quotas.show', [
+                'quotas' => $q->quota_by_id($quota_id),
+                'items' => $i->items_buyer($user->id, $quota_id),
+            ]);
         }
         if ($user->Roles == 'Поставщик')
         {
-            $q = new quotas();
-            $i = new quotas_items();
             return view('quotas.show', [
                 'quotas' => $q->quota_by_id($quota_id),
                 'items' => $i->items_seller($user->id, $quota_id),
             ]);
         }
+
     }
 
     /**
@@ -121,7 +124,8 @@ class quotas_controller extends Controller
                 return view('quotas.edit', [
                     'quotas' => $q->quota_by_id($quota_id),
                     'items' => $i->items_buyer($quota_id, $user->id),
-                    'categories' => categories::class::get()// для всплывающего списка
+                    'categories' => categories::class::get(),// для всплывающего списка
+                    'q' => $quota_id
                 ]);
             }
             else

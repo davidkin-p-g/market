@@ -20,7 +20,7 @@ class quotas_items extends Model
         return $this->hasMany(categories::class, 'id', 'IdCategories')->select('id', 'Categories');
     }
 
-    public function items_buyer($BuyerId, $quota_id)
+    public function items_buyer($quota_id, $BuyerId)
     {
         $items = DB::table('quotas_items')
             ->select('quotas_items.*',
@@ -28,6 +28,7 @@ class quotas_items extends Model
                 DB::raw('count(offers.id) as offers_count')
             )
             ->where('quotas_items.QuotasId', $quota_id)
+            ->where('quotas_items.isDelete', 0)
 
             ->join('categories', 'categories.id', '=', 'quotas_items.IdCategories')
 

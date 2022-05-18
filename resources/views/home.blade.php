@@ -43,21 +43,12 @@
                         <h4 class="my-0 fw-normal">Квоты на оборудование</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
                             @if($user = auth()->user()->Roles == 'Покупатель')
-                                <li>Здесь вы можете: </li>
-                                <li>создавать квоты,</li>
-                                <li>модерировать их,</li>
-                                <li>и многое другое</li>
+                                <h4 class="my-0 fw-normal">Текст</h4>
                             @endif
                             @if($user = auth()->user()->Roles == 'Поставщик')
-                                    <li>Здесь предствалены </li>
-                                    <li>квоты</li>
-                                    <li>остваленые Запукщиками оборудования </li>
-                                    <li>для ващих предложений</li>
+                                <h4 class="my-0 fw-normal">Текст</h4>
                             @endif
-                        </ul>
                         <a href="{{route('quotas.index')}}" class="w-100 btn btn-lg btn-primary" role="button" aria-disabled="true">Список квот</a>
                     </div>
                 </div>
@@ -68,21 +59,12 @@
                         <h4 class="my-0 fw-normal">Опубликованное оборудование</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
                             @if($user = auth()->user()->Roles == 'Покупатель')
-                                <li>Что-то одно </li>
-                                <li>Что-то второе</li>
-                                <li>Что-то третье</li>
-                                <li>Что-то четвертое</li>
+                                <h4 class="my-0 fw-normal">Текст</h4>
                             @endif
                             @if($user = auth()->user()->Roles == 'Поставщик')
-                                <li>Что-то одно </li>
-                                <li>Что-то второе</li>
-                                <li>Что-то третье</li>
-                                <li>Что-то четвертое</li>
+                                <h4 class="my-0 fw-normal">Текст</h4>
                             @endif
-                        </ul>
                         <a href="{{route('products.index')}}" class="w-100 btn btn-lg btn-primary" role="button" aria-disabled="true">Список оборудования</a>
                     </div>
                 </div>
@@ -93,21 +75,12 @@
                         <h4 class="my-0 fw-normal">Предложения</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
                             @if($user = auth()->user()->Roles == 'Покупатель')
-                                <li>Что-то одно </li>
-                                <li>Что-то второе</li>
-                                <li>Что-то третье</li>
-                                <li>Что-то четвертое</li>
+                                <h4 class="my-0 fw-normal">Текст</h4>
                             @endif
                             @if($user = auth()->user()->Roles == 'Поставщик')
-                                <li>Что-то одно </li>
-                                <li>Что-то второе</li>
-                                <li>Что-то третье</li>
-                                <li>Что-то четвертое</li>
+                                <h4 class="my-0 fw-normal">Текст</h4>
                             @endif
-                        </ul>
                         <a href="{{route('offers.index')}}" class="w-100 btn btn-lg btn-primary" role="button" aria-disabled="true">Список оборудования</a>
                     </div>
                 </div>

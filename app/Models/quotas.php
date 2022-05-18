@@ -16,12 +16,12 @@ class quotas extends Model
 
         $quotas = DB::table('quotas')
             ->select('quotas.*',
-                DB::raw('count(offers.id) as offers_count')
+               DB::raw('count(offers.id) as offers_count')
             )
             ->where('quotas.BuyerId', $BuyerId)
             ->where('quotas.isDelete',0)
 
-            ->join('quotas_items', 'quotas_items.QuotasId', '=', 'quotas.id')
+            ->leftJoin('quotas_items', 'quotas_items.QuotasId', '=', 'quotas.id')
 
             ->leftJoin('offers', 'quotas_items.id', '=', 'offers.ItemsId')
             ->where(function($query) use ($BuyerId)
@@ -54,7 +54,7 @@ class quotas extends Model
             ->where('QPublished', 'on')
             ->where('quotas.isDelete',0)
 
-            ->join('quotas_items', 'quotas_items.QuotasId', '=', 'quotas.id')
+            ->leftJoin('quotas_items', 'quotas_items.QuotasId', '=', 'quotas.id')
 
             ->leftJoin('offers', 'quotas_items.id', '=', 'offers.ItemsId')
             ->where(function($query) use ($SellerId)
