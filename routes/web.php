@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Товары
     Route::get('/products/',[App\Http\Controllers\seller\products_controller::class, 'index'])->name('products.index');
-    Route::get('/productss/{IdCategories}',[App\Http\Controllers\seller\products_controller::class, 'index'])->name('products.indexid');
+    Route::get('/product/{IdCategories}',[App\Http\Controllers\seller\products_controller::class, 'index'])->name('products.indexid');
     Route::get('/products/{IdCategories}',[App\Http\Controllers\seller\products_controller::class, 'create'])->name('products.create');
     Route::get('/products/{IdCategories}/{product_id}',[App\Http\Controllers\seller\products_controller::class, 'create'])
         ->name('products.createedit');
@@ -65,6 +65,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/offer_seller/{id}/{IdCategories}',[App\Http\Controllers\offers\offers_controller::class, 'create_post'])->name('offers.create_seller');
     Route::get('/offers/',[App\Http\Controllers\offers\offers_controller::class, 'index'])->name('offers.index');
     Route::get('/offers/edit/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'edit'])->name('offers.edit');
+
+    Route::get('/offers/quota/{quota_id}',[App\Http\Controllers\offers\offers_controller::class, 'quota'])->name('offers.quota');
+    Route::get('/offers/item/{item_id}',[App\Http\Controllers\offers\offers_controller::class, 'item'])->name('offers.item');
+    Route::get('/offers/product/{product_id}',[App\Http\Controllers\offers\offers_controller::class, 'product'])->name('offers.product');
+
+
 
 
 });

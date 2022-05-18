@@ -81,7 +81,7 @@
                     </tr>
                 @else
                 <tr>
-                    <td>{{$item->quotas_item_categoties_name->first()->Categories}}</td>
+                    <td>{{$item->Categories}}</td>
                     <td>{{$item->ItemName}}</td>
                     <td>{{$item->ItemCost}}</td>
                     <td>{{$item->ItemCount}}</td>
@@ -97,6 +97,7 @@
                             {{ csrf_field() }}
                             <a href="{{route('quotas.edititem', ['item_id'=>$item->id,'quota_id'=>$item->QuotasId])}}"><i class="fa fa-edit"></i></a>
                             <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                            <a href="{{route('offers.item', ['item_id'=> $item->id])}}" >[{{$item->offers_count}}]</a>
                         </form>
                     </td>
                 </tr>

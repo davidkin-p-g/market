@@ -30,7 +30,7 @@ class quotas_controller extends Controller
         if ($user->Roles == 'Поставщик')
         {
             return view('quotas.index', [
-                'quotas' => $q->quotas_seller()
+                'quotas' => $q->quotas_seller($user->id)
             ]);
         }
 
@@ -96,9 +96,10 @@ class quotas_controller extends Controller
         if ($user->Roles == 'Поставщик')
         {
             $q = new quotas();
+            $i = new quotas_items();
             return view('quotas.show', [
                 'quotas' => $q->quota_by_id($quota_id),
-                'items' => quotas_items::with('quotas_item_categoties_name')->where('QuotasId', $quota_id)->where('isDelete', 0)->get(),
+                'items' => $i->items_seller($user->id, $quota_id),
             ]);
         }
     }
@@ -111,23 +112,23 @@ class quotas_controller extends Controller
      */
     public function edit(int $quota_id, int $item_id = null)
     {
+        $q = new quotas();
+        $i = new quotas_items();
         $user = auth()->user();// получили пользователя
         if($user->Roles == 'Покупатель')
         {
             if ( $item_id == null) {
-                $q = new quotas();
                 return view('quotas.edit', [
                     'quotas' => $q->quota_by_id($quota_id),
-                    'items' => quotas_items::with('quotas_item_categoties_name')->where('QuotasId', $quota_id)->where('isDelete', 0)->get(),
+                    'items' => $i->items_buyer($quota_id, $user->id),
                     'categories' => categories::class::get()// для всплывающего списка
                 ]);
             }
             else
             {
-                $q = new quotas();
                 return view('quotas.edit', [
                     'quotas' => $q->quota_by_id($quota_id),
-                    'items' => quotas_items::with('quotas_item_categoties_name')->where('QuotasId', $quota_id)->where('isDelete', 0)->get(),
+                    'items' => $i->items_buyer($quota_id, $user->id),
                     'categories' => categories::class::get(),// для всплывающего списка
                     'item_id' => $item_id
                 ]);

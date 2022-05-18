@@ -20,23 +20,27 @@ class products_controller extends Controller
         $user = auth()->user();// получили пользователя
         if($user->Roles == 'Покупатель')
         {
+            $ch_id = array();
+            $product = new products();
+            $product = $product->products_offers_buyer($user, $IdCategories, $ch_id);
             if ($IdCategories == null)
             {
+
                 return view('products.index', [
                     'categ' => categories::with('children')->where('IdParent', '0')->get(),
                     'delimiter'  => '&#149',
-                    'products' => products::where('isDelete', '0')->where('ProdPublished', 'on')->get(),
+                    'products' => $product
                 ]);
 
             }
             else
             {
-                $ch_id = array();
                 return view('products.index', [
                     'categ' => categories::with('children')->where('IdParent', '0')->get(),
                     'delimiter' => '&#149',
-                    'products' => products::with('products_categoties_name')->whereIn('IdCategories', categories::get_children_id($IdCategories, $ch_id))->where('isDelete', '0')->where('ProdPublished', 'on')->get(),
+                    'products' => $product,
                     'Categories' => categories::where('id', $IdCategories)->select('id', 'Categories')->first(),
+
 
 
                 ]);
@@ -45,20 +49,23 @@ class products_controller extends Controller
 
         if ($user->Roles == 'Поставщик') {
             $ch_id = array();
+            $product = new products();
+            $product = $product->products_offers_seller($user, $IdCategories,$ch_id);
             if ($IdCategories == null) {
                 return view('products.index', [
                     'categ' => categories::with('children')->where('IdParent', '0')->get(),
                     'delimiter' => '&#149',
-                    'products' => products::where('isDelete', '0')->where('SellerId', $user->id)->get()
+                    'products' => $product
                 ]);
             } else {
+                // не используется
                 return view('products.index', [
                     'categ' => categories::with('children')->where('IdParent', '0')->get(),
                     'delimiter' => '&#149',
-                    'products' => products::with('products_categoties_name')->whereIn('IdCategories', categories::get_children_id($IdCategories, $ch_id))->where('isDelete', '0')->where('SellerId', $user->id)->get(),
+                    'products' =>$product,
                     'Categor' => categories::where('id', $IdCategories)->select('id', 'Categories')->first(),
                     'product_id' => $product_id,
-                    'categories' => categories::class::get()// для всплывающего списка
+                    'categories' => categories::class::get(),// для всплывающего списка
                 ]);
             }
         }
@@ -78,13 +85,15 @@ class products_controller extends Controller
         }
         if ($user->Roles == 'Поставщик') {
             $ch_id = array();
+            $product = new products();
+            $product = $product->products_offers_seller($user, $IdCategories,$ch_id );
             return view('products.create', [
                 'categ' => categories::with('children')->where('IdParent', '0')->get(),
                 'delimiter' => '&#149',
-                'products' => products::with('products_categoties_name')->whereIn('IdCategories', categories::get_children_id($IdCategories, $ch_id))->where('isDelete', '0')->where('SellerId', $user->id)->get(),
                 'Categor' => categories::where('id', $IdCategories)->select('id', 'Categories')->first(),
                 'product_id' => $product_id,
-                'categories' => categories::class::get()
+                'categories' => categories::class::get(),
+                'products' => $product
             ]);
         }
     }

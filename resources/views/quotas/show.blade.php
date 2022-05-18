@@ -21,7 +21,7 @@
                 <tbody>
                 @foreach ($items as $item)
                         <tr>
-                            <td>{{$item->quotas_item_categoties_name->first()->Categories}}</td>
+                            <td>{{$item->Categories}}</td>
                             <td>{{$item->ItemName}}</td>
                             <td>{{$item->ItemCost}}</td>
                             <td>{{$item->ItemCount}}</td>
@@ -33,8 +33,9 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('quotas.showitem', ['quota_id' => 1, 'item_id' => 1])}}"><i class="fa fa-eye"></i></a>
+{{--                                <a href="{{route('quotas.showitem', ['quota_id' => 1, 'item_id' => 1])}}"><i class="fa fa-eye"></i></a>--}}
                                 <a href="{{route('offers.create_seller', ['id' =>$item->id, 'IdCategories' => $item->IdCategories])}}"><i class="fa fa-plus"></i></a>
+                                <a href="{{route('offers.item', ['item_id'=> $item->id])}}" >[{{$item->offers_count}}]</a>
                             </td>
                         </tr>
                 @endforeach

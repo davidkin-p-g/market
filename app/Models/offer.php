@@ -25,7 +25,7 @@ class offer extends Model
                 'quotas.Name as QuotasName','quotas.Buyer', 'quotas.QRealizationDate',
                 'ca.Categories as ItemCategories', 'c.Categories as ProdCategories'
             )
-            ->get();
+            ;
         return $offers;
     }
     public function offers_buyer($user) {
@@ -43,7 +43,7 @@ class offer extends Model
                 'quotas.Name as QuotasName','quotas.Buyer', 'quotas.QRealizationDate',
                 'ca.Categories as ItemCategories', 'c.Categories as ProdCategories'
             )
-            ->get();
+            ;
         return $offers;
     }
 }

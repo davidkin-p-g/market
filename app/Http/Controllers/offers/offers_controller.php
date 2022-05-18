@@ -23,25 +23,36 @@ class offers_controller extends Controller
     {
         $user = auth()->user();// получили пользователя
         $offers = new offer();
-        $category = categories::get();
-        if($user->Roles == 'Покупатель')
-        {
-            $offers = $offers->offers_buyer($user);
-        }
+        if($user->Roles == 'Покупатель') {$offers = $offers->offers_buyer($user)->get();}
+        if ($user->Roles == 'Поставщик') {$offers = $offers->offers_seller($user)->get();}
+        return view('offers.index', ['offers' => $offers]);
+    }
 
+    public function quota($quota_id)
+    {
+        $user = auth()->user();// получили пользователя
+        $offers = new offer();
+        if($user->Roles == 'Покупатель') {$offers = $offers->offers_buyer($user)->where('quotas.id', $quota_id)->get();}
+        if ($user->Roles == 'Поставщик') {$offers = $offers->offers_seller($user)->where('quotas.id', $quota_id)->get();}
+        return view('offers.index', ['offers' => $offers]);
+    }
 
-        if ($user->Roles == 'Поставщик')
-        {
-            $offers = $offers->offers_seller($user);
-        }
+    public function item($item_id)
+    {
+        $user = auth()->user();// получили пользователя
+        $offers = new offer();
+        if($user->Roles == 'Покупатель') {$offers = $offers->offers_buyer($user)->where('quotas_items.id', $item_id)->get();}
+        if ($user->Roles == 'Поставщик') {$offers = $offers->offers_seller($user)->where('quotas_items.id', $item_id)->get();}
+        return view('offers.index', ['offers' => $offers]);
+    }
 
-        // не бывает счастья больше чем дорваться до нормальных запросов
-            return view('offers.index', [
-                'offers' => $offers,
-
-            ]);
-
-
+    public function product($product_id)
+    {
+        $user = auth()->user();// получили пользователя
+        $offers = new offer();
+        if($user->Roles == 'Покупатель') {$offers = $offers->offers_buyer($user)->where('products.id', $product_id)->get();}
+        if ($user->Roles == 'Поставщик') {$offers = $offers->offers_seller($user)->where('products.id', $product_id)->get();}
+        return view('offers.index', ['offers' => $offers]);
     }
 
     /**

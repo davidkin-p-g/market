@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="row">
     <div class="col-sm-2">
@@ -79,7 +78,7 @@
                             @else
                                 <tr>
                                     <td>{{$product->ProdName}}</td>
-                                    <td>{{$product->products_categoties_name->first()->Categories}}</td>
+                                    <td>{{$product->Categories}}</td>
                                     <td>{{$product->ProdCost}}</td>
                                     <td>{{$product->ProdCount}}</td>
                                     <td>
@@ -95,6 +94,7 @@
                                             {{ csrf_field() }}
                                             <a href="{{route('products.createedit', ['IdCategories'=>$Categor->id, 'product_id'=>$product->id])}}"><i class="fa fa-edit"></i></a>
                                             <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                                            <a href="{{route('offers.product', ['product_id'=>$product->id])}}" >[{{$product->offers_count}}]</a>
                                         </form>
                                     </td>
                                 </tr>

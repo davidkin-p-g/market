@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 
     <div class="container">
@@ -54,11 +53,13 @@
                             {{ csrf_field() }}
                             <a href="{{route('quotas.edit', ['quota_id'=>$quota->id])}}"><i class="fa fa-edit"></i></a>
                             <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                            <a href="{{route('offers.quota', ['quota_id'=>$quota->id])}}" >[{{$quota->offers_count}}]</a>
                         </form>
                         @endif
-                            @if($user = auth()->user()->Roles == 'Поставщик')
-                                    <a href="{{route('quotas.show', ['quota_id'=>$quota->id])}}"><i class="fa fa-eye"></i></a>
-                            @endif
+                        @if($user = auth()->user()->Roles == 'Поставщик')
+                            <a href="{{route('quotas.show', ['quota_id'=>$quota->id])}}"><i class="fa fa-eye"></i></a>
+                            <a href="{{route('offers.quota', ['quota_id'=>$quota->id])}}" >[{{$quota->offers_count}}]</a>
+                        @endif
                     </td>
                 </tr>
             @empty

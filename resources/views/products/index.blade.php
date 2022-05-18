@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="row">
         <div class="col-sm-2">
@@ -39,7 +38,7 @@
                         @foreach ($products as $product)
                                 <tr>
                                     <td>{{$product->ProdName}}</td>
-                                    <td>{{$product->products_categoties_name->first()->Categories}}</td>
+                                    <td>{{$product->Categories}}</td>
                                     <td>{{$product->ProdCost}}</td>
                                     <td>{{$product->ProdCount}}</td>
                                     <td>
@@ -58,17 +57,19 @@
                                                 {{ csrf_field() }}
                                                 <a href="{{route('products.createedit', ['IdCategories'=>$product->IdCategories, 'product_id'=>$product->id])}}"><i class="fa fa-edit"></i></a>
                                                 <button type="submit" class="btn"><i class="fa fa-trash"></i></button>
+                                                <a href="{{route('offers.product', ['product_id'=>$product->id])}}" >[{{$product->offers_count}}]</a>
                                             </form>
                                             @endif
                                         @endif
                                         @if($user = auth()->user()->Roles == 'Покупатель')
                                             @if(isset($Categories))
-                                                <a href="{{route('products.index')}}"><i class="fa fa-eye"></i></a>
+{{--                                                <a href="{{route('products.index')}}"><i class="fa fa-eye"></i></a>--}}
                                                 <a href="{{route('offers.create_buyer', ['id'=>$product->id, 'IdCategories'=>$Categories->id])}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
                                             @else
 {{--                                                <a href="{{route('products.show', ['IdCategories'=>null,'product_id'=>$product->id])}}"><i class="fa fa-eye"></i></a>--}}
                                                 <a href="{{route('offers.create_buyer', ['id'=>$product->id])}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
                                             @endif
+                                                <a href="{{route('offers.product', ['product_id'=>$product->id])}}" >[{{$product->offers_count}}]</a>
                                         @endif
                                     </td>
                                 </tr>
