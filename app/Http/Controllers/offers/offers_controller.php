@@ -224,7 +224,7 @@ class offers_controller extends Controller
     public function edit(int $offer_id)
     {
         $user = auth()->user();// получили пользователя
-        $offer = offer::where('id',$offer_id)->where('isDelete', 1)->first();
+        $offer = offer::where('id',$offer_id)->where('isDelete', 0)->first();
         $item = quotas_items::where('id',$offer->ItemsId)->first();
         $chat = new chats();
         $chat = $chat->chat_user($offer_id);
@@ -235,8 +235,6 @@ class offers_controller extends Controller
             'product' => products::with('products_categoties_name')->where('id', $offer->ProductsId)->first(),
             'offer' => $offer,
             'chats' => $chat
-
-
         ]);
     }
 

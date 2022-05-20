@@ -31,7 +31,7 @@
                                 <textarea class="form-control" name="Text" placeholder="Описание квоты" rows="3">{{$quotas->Text}}</textarea>
 
                                 <label for="QRealizationDate">Срок реализации</label>
-                                <input type="date" class="form-control" name="QRealizationDate" placeholder="Срок реализации" {{$quotas->QRealizationDate}}>
+                                <input type="date" class="form-control" name="QRealizationDate" placeholder="Срок реализации" value="{{$quotas->QRealizationDate}}">
                                 @if (isset($quotas->QPublished))
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="QPublished" checked >
