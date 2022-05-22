@@ -123,18 +123,20 @@ class quotas_controller extends Controller
             if ( $item_id == null) {
                 return view('quotas.edit', [
                     'quotas' => $q->quota_by_id($quota_id),
-                    'items' => $i->items_buyer($quota_id, $user->id),
+                    'items' => $i->items_buyer($user->id, $quota_id),
                     'categories' => categories::class::get(),// для всплывающего списка
-                    'q' => $quota_id
+                    'q' => $quota_id,
+                    'quota_id' => $quota_id
                 ]);
             }
             else
             {
                 return view('quotas.edit', [
                     'quotas' => $q->quota_by_id($quota_id),
-                    'items' => $i->items_buyer($quota_id, $user->id),
+                    'items' => $i->items_buyer($user->id, $quota_id),
                     'categories' => categories::class::get(),// для всплывающего списка
-                    'item_id' => $item_id
+                    'item_id' => $item_id,
+                    'quota_id' => $quota_id
                 ]);
             }
 

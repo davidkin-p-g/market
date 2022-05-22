@@ -1,4 +1,5 @@
 @extends('layouts.app')
+{{$quota_id}}
 @section('content')
 
     <div class="container">
@@ -101,8 +102,6 @@
                                                 </textarea>
                                             </p>
                                             <hr>
-                                            <p class="card-text">Заполненость/ В разработке</p>
-                                            <hr>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <input class="btn btn-sm btn-outline-secondary" type="submit" value="Сохранить">
                                             </div>
@@ -120,8 +119,6 @@
                                         <p class="card-text">{{$item->Categories}}</p>
                                         <hr>
                                         <p class="card-text">Стоимость:{{$item->ItemCost}}руб./ Количество: {{$item->ItemCount}} шт. </p>
-                                        <hr>
-                                        <p class="card-text">Заполненость/ В разработке</p>
                                         <hr>
                                         @if(isset($item->ItemText))
                                             <p class="card-text">{{$item->ItemText}}</p>

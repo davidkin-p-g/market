@@ -20,12 +20,17 @@ class quotas_items extends Model
         return $this->hasMany(categories::class, 'id', 'IdCategories')->select('id', 'Categories');
     }
 
-    public function items_buyer($quota_id, $BuyerId)
+    public function items_buyer($BuyerId,$quota_id)
     {
         $items = DB::table('quotas_items')
             ->select('quotas_items.*',
                 'categories.Categories',
-                DB::raw('count(offers.id) as offers_count')
+                DB::raw('count(DISTINCT quotas_items.id) as ItemsAll'),
+                DB::raw('sum(DISTINCT quotas_items.ItemCount) as ItemsAllCount'),
+                DB::raw('count(offers.id) as offers_count'),
+                DB::raw('count(if(offers.PublishedDate is not null,1,null)) as offers_count_pub'),
+                DB::raw('count(if(offers.PublishedDate is null,1,null)) as offers_count_notpub'),
+                DB::raw('sum(offers.TotalCount) as TotalCount')
             )
             ->where('quotas_items.QuotasId', $quota_id)
             ->where('quotas_items.isDelete', 0)
@@ -50,7 +55,12 @@ class quotas_items extends Model
         $items = DB::table('quotas_items')
             ->select('quotas_items.*',
                 'categories.Categories',
-                DB::raw('count(offers.id) as offers_count')
+                DB::raw('count(DISTINCT quotas_items.id) as ItemsAll'),
+                DB::raw('sum(DISTINCT quotas_items.ItemCount) as ItemsAllCount'),
+                DB::raw('count(offers.id) as offers_count'),
+                DB::raw('count(if(offers.PublishedDate is not null,1,null)) as offers_count_pub'),
+                DB::raw('count(if(offers.PublishedDate is null,1,null)) as offers_count_notpub'),
+                DB::raw('sum(offers.TotalCount) as TotalCount')
             )
             ->where('quotas_items.QuotasId', $quota_id)
             ->where('quotas_items.isDelete', 0)
@@ -65,7 +75,7 @@ class quotas_items extends Model
                     ->orWhereNull('offers.SellerId');
             })
 
-            ->groupBy('quotas_items.id')
+            ->groupBy('quotas_items.id', 'ItemCount')
             ->get();
         return $items;
     }

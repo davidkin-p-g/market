@@ -28,7 +28,16 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    Главная
+                </a>
+                <a class="navbar-brand" href="{{route('quotas.index')}}">
+                    Квоты
+                </a>
+                <a class="navbar-brand" href="{{route('products.index')}}">
+                    Оборудование
+                </a>
+                <a class="navbar-brand" href="{{route('offers.index')}}">
+                    Предложения
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -56,6 +65,10 @@
                                 </li>
                             @endif
                         @else
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Поиск</button>
+                            </form>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

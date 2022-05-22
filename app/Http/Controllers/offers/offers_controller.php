@@ -275,6 +275,8 @@ class offers_controller extends Controller
         if( $offer->BuyerPublished == 1 && $offer-> SellerPublished == 1 )
         {
             $offer->PublishedDate = date('Y-m-d ');
+            $offer->TotalCount = $offer->OfferBuyerCount;
+            $offer->TotalCost = $offer->OfferBuyerCount;
         }
 
 
@@ -299,5 +301,14 @@ class offers_controller extends Controller
         $offer->isDelete = 1;
         $offer->save();
         return redirect()->route('offers.index');
+    }
+
+    public function dogovor(int $offer_id)
+    {
+        $user = auth()->user();// получили пользователя
+        $offers = new offer();
+        if($user->Roles == 'Покупатель') {$offers = $offers->offers_buyer($user)->get();}
+        if ($user->Roles == 'Поставщик') {$offers = $offers->offers_seller($user)->get();}
+        return view('offers.dogovor', ['offers' => $offers]);
     }
 }

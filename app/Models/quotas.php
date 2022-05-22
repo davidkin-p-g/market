@@ -16,7 +16,12 @@ class quotas extends Model
 
         $quotas = DB::table('quotas')
             ->select('quotas.*',
-               DB::raw('count(offers.id) as offers_count')
+                DB::raw('count(DISTINCT quotas_items.id) as ItemsAll'),
+                DB::raw('sum(DISTINCT quotas_items.ItemCount) as ItemsAllCount'),
+                DB::raw('count(offers.id) as offers_count'),
+                DB::raw('count(if(offers.PublishedDate is not null,1,null)) as offers_count_pub'),
+                DB::raw('count(if(offers.PublishedDate is null,1,null)) as offers_count_notpub'),
+                DB::raw('sum(offers.TotalCount) as TotalCount')
             )
             ->where('quotas.BuyerId', $BuyerId)
             ->where('quotas.isDelete',0)
@@ -24,6 +29,7 @@ class quotas extends Model
             ->leftJoin('quotas_items', 'quotas_items.QuotasId', '=', 'quotas.id')
 
             ->leftJoin('offers', 'quotas_items.id', '=', 'offers.ItemsId')
+
             ->where(function($query) use ($BuyerId)
             {
                 $query->where('offers.isDelete', 0)
@@ -31,7 +37,7 @@ class quotas extends Model
                     ->orWhereNull('offers.BuyerId');
             })
 
-            ->groupBy('quotas.id')
+            ->groupBy('quotas.id' )
             ->get();
         return $quotas;
     }
@@ -49,13 +55,16 @@ class quotas extends Model
     {
         $quotas = DB::table('quotas')
             ->select('quotas.*',
-                DB::raw('count(offers.id) as offers_count')
+                DB::raw('count(DISTINCT quotas_items.id) as ItemsAll'),
+                DB::raw('sum(DISTINCT quotas_items.ItemCount) as ItemsAllCount'),
+                DB::raw('count(offers.id) as offers_count'),
+                DB::raw('count(if(offers.PublishedDate is not null,1,null)) as offers_count_pub'),
+                DB::raw('sum(offers.TotalCount) as TotalCount')
             )
             ->where('QPublished', 'on')
             ->where('quotas.isDelete',0)
 
             ->leftJoin('quotas_items', 'quotas_items.QuotasId', '=', 'quotas.id')
-
             ->leftJoin('offers', 'quotas_items.id', '=', 'offers.ItemsId')
             ->where(function($query) use ($SellerId)
             {

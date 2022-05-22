@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container">
         <nav aria-label="breadcrumb">
@@ -89,8 +88,8 @@
                                     <div class="d-flex justify-content-around align-items-center">
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item">
-                                                <a href="{{route('offers.edit', ['offer_id'=> $offer->id])}}" type="button" class="btn btn-sm btn-outline-secondary">
-                                                    Договор/В разработке
+                                                <a href="{{route('offers.dogovor', ['offer_id'=> $offer->id])}}" type="button" class="btn btn-sm btn-outline-secondary">
+                                                    Договор
                                                 </a>
                                             </li>
                                         </ul>

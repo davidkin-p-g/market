@@ -21,11 +21,13 @@ return new class extends Migration
             $table->integer('BuyerId');
             $table->boolean('SellerPublished')->nullable();
             $table->boolean('BuyerPublished')->nullable();
-            $table->integer('OfferBuyerCount')->nullable();;
-            $table->float('OfferBuyerCost')->nullable();;
-            $table->integer('OfferSellerCount')->nullable();;
-            $table->float('OfferSellerCost')->nullable();;
+            $table->integer('OfferBuyerCount')->nullable();
+            $table->float('OfferBuyerCost')->nullable();
+            $table->integer('OfferSellerCount')->nullable();
+            $table->float('OfferSellerCost')->nullable();
             $table->date('PublishedDate')->nullable();
+            $table->integer('TotalCount')->nullable();
+            $table->float('TotalCost')->nullable();
             $table->boolean('isDelete')->default(0);
             $table->timestamps();
         });

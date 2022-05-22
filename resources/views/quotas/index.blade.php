@@ -37,7 +37,37 @@
                                             <p class="card-text">---</p>
                                         @endif
                                         <hr>
-                                        <p class="card-text">Заполненость/ В разработке</p>
+                                        @if(isset($quota->ItemsAll))
+                                                <p class="card-text">Позиций: {{$quota->ItemsAll}}</p>
+                                        @else
+                                                <p class="card-text">Позиций: Нет</p>
+                                        @endif
+                                        @if(isset($quota->ItemsAllCount))
+                                            @if(isset($quota->TotalCount))
+                                                <p class="card-text">Заполненость: {{$quota->TotalCount}}/{{$quota->ItemsAllCount}} шт.</p>
+                                            @else
+                                                <p class="card-text">Заполненость: 0/{{$quota->ItemsAllCount}} шт.</p>
+                                            @endif
+                                        @else
+                                            <p class="card-text">Заполненость: ---</p>
+                                        @endif
+                                        <p class="card-text">
+                                            Предложения:
+                                            <br>
+                                            Всего
+                                            @if(isset($quota->offers_count))
+                                               {{$quota->offers_count}}
+                                            @else
+                                                0
+                                            @endif
+                                            /Согласовано
+                                            @if(isset($quota->offers_count_pub))
+                                                {{$quota->offers_count_pub}}
+                                            @else
+                                                0
+                                            @endif
+                                        </p>
+                                        <hr>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
@@ -90,6 +120,38 @@
                                             @else
                                                 <p class="card-text">---</p>
                                             @endif
+                                            <hr>
+                                            @if(isset($quota->ItemsAll))
+                                                <p class="card-text">Позиций: {{$quota->ItemsAll}}</p>
+                                            @else
+                                                <p class="card-text">Позиций: Нет</p>
+                                            @endif
+                                            @if(isset($quota->ItemsAllCount))
+                                                    @if(isset($quota->TotalCount))
+                                                        <p class="card-text">Заполненость: {{$quota->TotalCount}}/{{$quota->ItemsAllCount}} шт.</p>
+                                                    @else
+                                                        <p class="card-text">Заполненость: 0/{{$quota->ItemsAllCount}} шт.</p>
+                                                    @endif
+                                            @else
+                                                <p class="card-text">Заполненость: ---</p>
+                                            @endif
+                                            <p class="card-text">
+                                                Предложения:
+                                                <br>
+                                                Всего
+                                                @if(isset($quota->offers_count))
+                                                    {{$quota->offers_count}}
+                                                @else
+                                                    0
+                                                @endif
+                                                /Согласовано
+                                                @if(isset($quota->offers_count_pub))
+                                                    {{$quota->offers_count_pub}}
+                                                @else
+                                                    0
+                                                @endif
+                                            </p>
+                                            <hr>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">
@@ -155,7 +217,37 @@
                                                     <p class="card-text">---</p>
                                                 @endif
                                                 <hr>
-                                                <p class="card-text">Заполненость/ В разработке</p>
+                                                @if(isset($quota->ItemsAll))
+                                                    <p class="card-text">Позиций: {{$quota->ItemsAll}}</p>
+                                                @else
+                                                    <p class="card-text">Позиций: Нет</p>
+                                                @endif
+                                                @if(isset($quota->ItemsAllCount))
+                                                    @if(isset($quota->TotalCount))
+                                                        <p class="card-text">Заполненость: {{$quota->TotalCount}}/{{$quota->ItemsAllCount}} шт.</p>
+                                                    @else
+                                                        <p class="card-text">Заполненость: 0/{{$quota->ItemsAllCount}} шт.</p>
+                                                    @endif
+                                                @else
+                                                    <p class="card-text">Заполненость: ---</p>
+                                                @endif
+                                                <p class="card-text">
+                                                    Предложения:
+                                                    <br>
+                                                    Всего
+                                                    @if(isset($quota->offers_count))
+                                                        {{$quota->offers_count}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                    /Согласовано
+                                                    @if(isset($quota->offers_count_pub))
+                                                        {{$quota->offers_count_pub}}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </p>
+                                                <hr>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <ul class="list-group list-group-flush">
                                                         <li class="list-group-item">

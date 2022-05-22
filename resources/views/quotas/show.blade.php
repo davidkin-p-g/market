@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 
     <div class="container">
@@ -30,13 +29,38 @@
                                 <hr>
                                 <p class="card-text">Стоимость:{{$item->ItemCost}}руб./ Колличество: {{$item->ItemCount}} шт. </p>
                                 <hr>
-                                <p class="card-text">Заполненость/ В разработке</p>
+                                @if(isset($item->ItemsAllCount))
+                                    @if(isset($item->TotalCount))
+                                        <p class="card-text">Заполненость: {{$item->TotalCount}}/{{$item->ItemsAllCount}} шт.</p>
+                                    @else
+                                        <p class="card-text">Заполненость: 0/{{$item->ItemsAllCount}} шт.</p>
+                                    @endif
+                                @else
+                                    <p class="card-text">Заполненость: ---</p>
+                                @endif
                                 <hr>
                                 @if(isset($item->ItemText))
                                     <p class="card-text">{{$item->ItemText}}</p>
                                 @else
                                     <p class="card-text">---</p>
                                 @endif
+                                <hr>
+                                <p class="card-text">
+                                    Предложения:
+                                    <br>
+                                    Всего
+                                    @if(isset($item->offers_count))
+                                        {{$item->offers_count}}
+                                    @else
+                                        0
+                                    @endif
+                                    /Согласовано
+                                    @if(isset($item->offers_count_pub))
+                                        {{$item->offers_count_pub}}
+                                    @else
+                                        0
+                                    @endif
+                                </p>
                                 <hr>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <ul class="list-group list-group-flush">

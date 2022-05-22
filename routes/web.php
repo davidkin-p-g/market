@@ -69,6 +69,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/offers/quota/{quota_id}',[App\Http\Controllers\offers\offers_controller::class, 'quota'])->name('offers.quota');
     Route::get('/offers/item/{item_id}',[App\Http\Controllers\offers\offers_controller::class, 'item'])->name('offers.item');
     Route::get('/offers/product/{product_id}',[App\Http\Controllers\offers\offers_controller::class, 'product'])->name('offers.product');
+    Route::get('/offers/dogovor/{offer_id}',[App\Http\Controllers\offers\offers_controller::class, 'dogovor'])->name('offers.dogovor');
 
 
 
